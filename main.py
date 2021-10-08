@@ -1,5 +1,6 @@
+# No te pase
 def main():
-    print("MUAJAJAJJAJAJA VETE A LA VERGA ! \nTE CREAS XD")
-# este wey no sabe programar
+    print("Creo que se pude con mas clase\nOSea solo esta confundido ")
+
 if __name__ == '__main__':
     main()
