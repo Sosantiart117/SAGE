@@ -1,6 +1,10 @@
-# No te pase
-def main():
-    print("Creo que se pude con mas clase\nOSea solo esta confundido ")
+import Sos
+
+s = Sos()
+
+s.di_algo()
+s.como_estas()
+
 
 if __name__ == '__main__':
     main()
