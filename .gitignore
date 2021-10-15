@@ -1,0 +1,23 @@
+# PyCache Compiled binnrys
+__pycache__/
+*.pyc$
+
+#Db files
+*.db$
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Enviroment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
