@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Archivos de buildeo de DB
+Build_DB.py
