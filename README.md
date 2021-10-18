@@ -1,2 +1,9 @@
 # SAGE
-Sistema de Asistenge General para Estudiantes
+
+Sistema de Asistente General para Estudiantes
+
+Funciones:
+
+- Calendario
+- Apuntes
+	- Recordatorios
