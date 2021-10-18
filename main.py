@@ -1,3 +1,4 @@
+from modulos.Sage import Sage
 from modulos.tasks import Task as tarea
 
 # def tareas():
@@ -5,8 +6,9 @@ from modulos.tasks import Task as tarea
 
 
 def main():
-    """ Metodo principal de la clase task """
-    tarea.has_algo()
+    """ Metodo principal del menu principal"""
+
+    Sage.init()
 
 if __name__ == '__main__':
     main()
