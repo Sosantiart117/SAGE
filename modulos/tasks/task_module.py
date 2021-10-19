@@ -1,8 +1,8 @@
-import sqlite3;
+import sqlite3
+from modulos.Sage import Sage
 
 class Task_Modelo():
-    db = sqlite3.connect(":memory:")
-    cur = db.cursor()
+
     def __init__(self):
         self.id_task = 0
         self.titulo = ""
@@ -19,23 +19,25 @@ class Task_Modelo():
         self.tipo_task = ""
         
     #insertar en los campos los valores proporcionados
-    def summit_task(self, inform):
+    def summit_task(self): # Retorna estatus
+        db = sqlite3.connect(Sage.get_db())
+        cur = db.cursor()
         try:
-            cur.execute(""" INSERT INTO task 
+            cur.execute(""" INSERT INTO tasks
             (Titulo, Descripcion, Estatus, Proyecto_Id, Categoria_Id,
             Etapa_Id, Score, Ruta_Carpeta, Fecha_Creacion, Fecha_Inicial, Fecha_Final, Tipo_task)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", self.set_tupla_summit())
-            cur.commit()
-        except sqlite3.Error():
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", self.get_tupla_for_summit())
+            db.commit()
+            return "Registro exitoso"        
+        except sqlite3.Error as err:
             return "Error en la creación del registro"
         finally:
             cur.close()
-            return "Registro exitoso"        
 
     #se genera la tupla para insertar los registros
     def get_tupla_for_summit(self):
         info = (self.titulo, self.descripcion, self.estatus, self.proy_id,
-         self.categoria_id, self.etapa_id, self.score, self.path_carpeta, self.time_creacion,self.time_inicial,self.time_final, self.tipo_task)
+         self.categoria_id, self.etapa_id, self.score, self.path_carpeta, self.time_creacion,self.time_inicial,self.time_final, self.tipo_task,)
         return info 
 
     #se inicializan los valores desde una lista/ tupla de entrada
@@ -55,15 +57,21 @@ class Task_Modelo():
         self.tipo_task = lista[12]
 
     #seleccionar registros con valor en específico.
-    def select_task_especifica(self, campo_seleccion, valor_comparativo):
-        info=[]
+    @classmethod
+    def get_task(cls, select="*", where="", orden=""):
+        db = sqlite3.connect(Sage.get_db())
+        cur = db.cursor()
+        # SObrecarga pytonica
+        query = "SELECT * FROM tasks"
+        if not where == "":
+            query += " WHERE :where"
+        elif not orden == "":
+            query += " ORDER BY :order"
+        query +=";"
         try:
-            for row in cur.execute("""SELECT * FROM tasks :where :order""",
-            {"where": campo_seleccion, "order": ordernar_por}):
-                info.push(row)
-
-        except sqlite3.Error():
-            info = "No se encontraron registros"
+            cur.execute( query, { "where": where, "order": orden})
+            return cur.fetchall()
+        except sqlite3.Error as err :
+            return  None
         finally:
             cur.close()
-            return info    
