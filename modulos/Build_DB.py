@@ -55,15 +55,17 @@ def build(file):
                         "Proyecto_Id"	INTEGER,
                         "Categoria_Id"	INTEGER,
                         "Etapa_Id"	INTEGER,
+                        "Score"	INTEGER NOT NULL DEFAULT 0 CHECK("score" >= 0),
                         "Ruta_Carpeta"	TEXT,
-                        "Fecha_Creación"	INTEGER,
+                        "Fecha_Creacion"	INTEGER,
                         "Fecha_Inicial"	INTEGER,
                         "Fecha_Final"	INTEGER,
-                        PRIMARY KEY("Id_Tasks" AUTOINCREMENT),
+                        "Tipo_task"	TEXT,
                         FOREIGN KEY("Categoria_Id") REFERENCES "categorias"("Id_categorias"),
+                        FOREIGN KEY("Etapa_Id") REFERENCES "etapas"("Id_etapa"),
                         FOREIGN KEY("Proyecto_Id") REFERENCES "proyectos"("Id_proyecto"),
-                        FOREIGN KEY("Etapa_Id") REFERENCES "etapas"("Id_etapa")
-                    );   
+                        PRIMARY KEY("Id_Tasks" AUTOINCREMENT)
+                    );  
         """)  
 
         print("Se creó la tabla correctamente")
