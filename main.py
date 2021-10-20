@@ -1,5 +1,6 @@
 # Sage
 from modulos.Sage import Sage
+from modulos.tasks.Task import Task 
 # Kivy
 import kivy
 kivy.require('2.0.0')
@@ -29,6 +30,7 @@ class MainBar(BoxLayout):
 class SageZone(ScreenManager):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
+        self.add_widget(Task())
 
 def main():
     Sage.init()
