@@ -58,14 +58,14 @@ class Task_Modelo():
 
     #seleccionar registros con valor en específico.
     @classmethod
-    def get_task(cls, select="*", where="", orden=""):
+    def get_task(cls,  where=None, orden=None):
         db = sqlite3.connect(Sage.get_db())
         cur = db.cursor()
         # SObrecarga pytonica
         query = "SELECT * FROM tasks"
-        if not where == "":
+        if  where :
             query += " WHERE :where"
-        elif not orden == "":
+        elif orden :
             query += " ORDER BY :order"
         query +=";"
         try:

@@ -1,5 +1,5 @@
 # Sage
-
+from modulos.tasks.task_module import Task_Modelo as task_model
 # kivy
 import kivy
 from kivy.lang import Builder
@@ -18,21 +18,27 @@ class Task(Screen):
 class TaskZone(StackLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        for i in range(0, 1000):
-            size = dp(100)
-            self.add_widget(
-                Button(
-                    text=str(i+1),
-                    size_hint=(None, None),
-                    size=(size, size)))
+        self.tasks = self.get_tasks()
+        for task in self.tasks:
+            b = task_button()
+            b.set_task(task)
+            self.add_widget(b)
+        self.add_widget(task_button(text='+'))
 
-# Funcion main para probar la zona
-def main():
-    from kivy.app import App
-    class TaskApp(App):
-        def build(self):
-            return Task()
-    TaskApp().run()
+    def get_tasks(self):
+        return task_model().get_task()
 
-if __name__ == '__main__':
-    main()
+class task_button(Button):
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+        # Extra meta for Buttons
+        self.text = ""
+        self.size_hint = (None,None)
+        self.size  = (dp(100),dp(100))
+
+    def set_task(self,task_data):
+        # Cramos instancia del modelo
+        self.task = task_model()
+        self.task.set_valores_individuales(task_data) 
+        self.text = str(self.task.id_task)
+
