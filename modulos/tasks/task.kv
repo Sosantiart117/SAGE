@@ -1,7 +1,37 @@
 <Task>:
 	name: "Tasks"
 	BoxLayout:
-		ScrollView:
-			TaskZone:
-				size_hint: 1,None
-				height: self.minimum_height
+		orientation: 'vertical'
+		padding: '10dp'
+		spacing: '5dp'
+
+		Button:
+			size_hint: .2,.1
+			text: 'ordenar'
+
+		BoxLayout:
+			padding: '5dp'
+			spacing: '5dp'
+
+			ScrollView:
+				TaskZone:
+					size_hint: 1,None
+					height: self.minimum_height
+		
+			BoxLayout:
+				orientation: 'vertical'
+				size_hint: .3,.5
+				pos_hint: {'top':1}
+				padding: '5dp'
+				spacing: '20dp'
+
+				Button:
+					text: 'ordenar'
+				Button:
+					text: 'ordenar'
+				Button:
+					text: 'ordenar'
+
+<task_button>:
+	size_hint: None, None
+	size: '20dp','40dp'
