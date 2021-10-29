@@ -1,6 +1,9 @@
 # Sage
 from modulos.Sage import Sage
-from modulos.tasks.Task import Task 
+from modulos.tasks.task import Task 
+from modulos.notes.note import Note
+from modulos.calendar.calendar import Calendar
+from modulos.proyects.proyect import Proyect
 # Kivy
 import kivy
 kivy.require('2.0.0')
@@ -31,6 +34,9 @@ class SageZone(ScreenManager):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
         self.add_widget(Task())
+        self.add_widget(Calendar())
+        self.add_widget(Note())
+        self.add_widget(Proyect())
 
 def main():
     Sage.init()

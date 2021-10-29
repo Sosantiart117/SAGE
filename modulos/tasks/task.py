@@ -1,5 +1,5 @@
 # Sage
-from modulos.tasks.task_module import Task_Modelo as task_model
+from modulos.tasks.task_model import Task_modelo as task_modelo
 # kivy
 import kivy
 from kivy.lang import Builder
@@ -26,7 +26,7 @@ class TaskZone(StackLayout):
         self.add_widget(task_button(text='+'))
 
     def get_tasks(self):
-        return task_model().get_task()
+        return task_modelo().get_task()
 
 class task_button(Button):
     def __init__(self,**kwargs):
@@ -38,7 +38,7 @@ class task_button(Button):
 
     def set_task(self,task_data):
         # Cramos instancia del modelo
-        self.task = task_model()
+        self.task = task_modelo()
         self.task.set_valores_individuales(task_data) 
         self.text = str(self.task.id_task)
 

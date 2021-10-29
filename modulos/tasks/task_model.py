@@ -1,7 +1,7 @@
 import sqlite3
 from modulos.Sage import Sage
 
-class Task_Modelo():
+class Task_modelo():
 
     def __init__(self):
         self.id_task = 0
