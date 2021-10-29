@@ -9,14 +9,15 @@ import kivy
 kivy.require('2.0.0')
 from kivy.app import App
 # from kivy.metrics import dp
-# from kivy.uix.button import Button
+from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, BooleanProperty
 from kivy.uix.screenmanager import ScreenManager
 
 class SageApp(App):
-    """Clase de la app"""
+    """ Clase de la app """
+
     def build(self):
         return MainLayout()
 
@@ -37,6 +38,59 @@ class SageZone(ScreenManager):
         self.add_widget(Calendar())
         self.add_widget(Note())
         self.add_widget(Proyect())
+
+class Navmenu(BoxLayout):
+    # def __init__(self,**kwargs):
+    #     super().__init__(**kwargs)
+    #     # self.zone = self.parent.ids.zone
+    #     # print(self.parent)
+    #     # print(self.parent.ids)
+
+    def to_task(self):
+        zone = self.parent.parent.ids.zone
+        window = zone.current
+        if window == "Tasks":
+            print("Soy una tarea")
+            pass
+        else:
+            zone.transition.direction = "down"
+            zone.current = "Tasks"
+
+    def to_cal(self):
+        zone = self.parent.parent.ids.zone
+        window = zone.current
+        if window == "Calendar":
+            print("Soy un Calendario")
+            pass
+        elif window == "Tasks":
+            zone.transition.direction = "up"
+            zone.current = "Calendar"
+        else:
+            zone.transition.direction = "down"
+            zone.current = "Calendar"
+
+    def to_notes(self):
+        zone = self.parent.parent.ids.zone
+        window = zone.current
+        if window == "Notes":
+            print("Soy un Apunte")
+            pass
+        elif window == "Proyects":
+            zone.transition.direction = "down"
+            zone.current = "Notes"
+        else:
+            zone.transition.direction = "up"
+            zone.current = "Notes"
+
+    def to_proyectos(self):
+        zone = self.parent.parent.ids.zone
+        window = zone.current
+        if window == "Proyects":
+            print("Soy un Proyecto")
+            pass
+        else:
+            zone.transition.direction = "up"
+            zone.current = "Proyects"
 
 def main():
     Sage.init()

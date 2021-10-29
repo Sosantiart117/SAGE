@@ -20,6 +20,7 @@
 			size_hint: 0.4,1
 
 		SageZone:
+			id: zone
 			padding: "10dp"
 	
 <MainBar>:
@@ -35,16 +36,20 @@
 			width: '100dp'
 			text: "Perfil"
 
-<Navmenu@BoxLayout>:
+<Navmenu>:
 	orientation: "vertical"
 	padding: '20dp'
 	spacing: '20dp'
 
 	Button: 
 		text: 'Tareas'
+		on_press: root.to_task()
 	Button: 
 		text: 'Calendario'
+		on_press: root.to_cal()
 	Button: 
 		text: 'Apuntes'
+		on_press: root.to_notes()
 	Button: 
 		text: 'Proyectos'
+		on_press: root.to_proyectos()
