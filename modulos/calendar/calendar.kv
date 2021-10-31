@@ -1,5 +1,86 @@
 <Calendar>:
 	name:"Calendar"
+	canvas.before:
+		Color:
+			rgba: .8,1,.8,.8
+		Rectangle:
+			pos: self.pos
+			size: self.size
 	# Layout base para el componente
+	BoxLayout:
+		padding: "5dp"
+		spacing: "5dp"
+		orientation: 'vertical'
+		BoxLayout:
+			size_hint: 1,0.1
+			pos_hint: {'x':0,'top':1}
+			Label:
+				text: root.contenido
+			BoxLayout:
+				padding: "5dp"
+				spacing: "5dp"
+				Button:
+					text: "Mes"
+					on_press: root.ids.pager.to_mes()
+				Button:
+					text: "Semana"
+					on_press: root.ids.pager.to_sem()
+				Button:
+					text: "Dia"
+					on_press: root.ids.pager.to_dia()
+				Button:
+					text: "Año"
+					on_press: root.ids.pager.to_ao()
+		cal_zone:
+			size_hint: 1,0.9
+			pos_hint: {'x':0,'y':0}
+			id: pager
+
+<Mes>:
+	name: "Mes"
+	GridLayout:
+		id: grid
+		cols: 8
+		rows: 6
+		padding: "5dp"
+		spacing: "5dp"
+		Label:
+			text: "No."
+			size_hint: .4,.3
+		Label:
+			text: "Dom"
+			size_hint: 1,.3
+		Label:
+			text: "Lun"
+			size_hint: 1,.3
+		Label:
+			text: "Mar"
+			size_hint: 1,.3
+		Label:
+			text: "Mie"
+			size_hint: 1,.3
+		Label:
+			text: "Jue"
+			size_hint: 1,.3
+		Label:
+			text: "Vie"
+			size_hint: 1,.3
+		Label:
+			text: "Sab"
+			size_hint: 1,.3
+		
+
+<Dia>:
+	name: "Dia"
 	Label:
-		text: "Soy el panel Calendario"
+		text: "Soy un day"
+
+<Semana>:
+	name: "Semana"
+	Label:
+		text: "Soy un sem"
+
+<Ao>:
+	name: "Ao"
+	Label:
+		text: "Soy un ao"
