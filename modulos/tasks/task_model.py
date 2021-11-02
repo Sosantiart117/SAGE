@@ -5,9 +5,9 @@ class Task_modelo():
 
     def __init__(self):
         self.id_task = 0
-        self.titulo = ""
+        self.titulo = "Sin Titulo"
         self.descripcion = ""
-        self.estatus = ""
+        self.estatus = "Registrada"
         self.proy_id = 0
         self.categoria_id = 0
         self.etapa_id = 0

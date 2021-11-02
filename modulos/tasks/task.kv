@@ -1,5 +1,9 @@
 <Task>:
 	name: "Tasks"
+	Views:
+
+<ViewScreen>:
+	name: 'view'
 	BoxLayout:
 		orientation: 'vertical'
 		padding: '10dp'
@@ -15,6 +19,7 @@
 
 			ScrollView:
 				TaskZone:
+					id: zone
 					size_hint: 1,None
 					height: self.minimum_height
 		
@@ -32,6 +37,144 @@
 				Button:
 					text: 'ordenar'
 
+<EditScreen>:
+	name: 'edit'
+	BoxLayout:
+		orientation: 'vertical'
+		padding: '15dp'
+
+		BoxLayout:
+			size_hint: 1,.9
+			orientation: 'vertical'
+			padding: '25dp'
+			spacing: '5dp'
+
+			BoxLayout:
+			# Options Panel
+				BoxLayout:
+					orientation: 'vertical'
+					padding: '5dp'
+					spacing: '5dp'
+					
+					BoxLayout:
+						# Date selectors
+						BoxLayout:
+							orientation: 'vertical'
+							Label:
+								text: "Fecha inicial"
+								size_hint: None, .1
+								pos_hint: {'center_x':.5}
+							Button:
+								text: "dd/mm/aa"
+								size_hint: None, .1
+								pos_hint: {'center_x':.5}
+						BoxLayout:
+							orientation: 'vertical'
+							Label:
+								text: "Fecha final"
+								size_hint: None, .1
+								pos_hint: {'center_x':.5}
+							Button:
+								text: "dd/mm/aa"
+								size_hint: None, .1
+								pos_hint: {'center_x':.5}
+
+					BoxLayout:
+						# Title
+						spacing: '10dp'
+						padding: '20dp'
+						orientation: 'vertical'
+						Label:
+							text: "Titulo"
+							size_hint: None, .1
+						TextInput:
+							id: title
+							size_hint: 1, None
+							height: self.minimum_height
+							multiline: False
+
+				GridLayout:
+					cols: 2
+					rows: 2
+					padding: '5dp'
+					spacing: '5dp'
+
+					BoxLayout:
+						orientation: 'vertical'
+						Label:
+							text: "Proyecto"
+							size_hint: None, .1
+							pos_hint: {'center_x':.5}
+						Spinner:
+							id: proy
+							text: "Select"
+							size_hint: None, .1
+							pos_hint: {'center_x':.5}
+
+					BoxLayout:
+						orientation: 'vertical'
+						Label:
+							text: "Tipo"
+							size_hint: None, .1
+							pos_hint: {'center_x':.5}
+						Spinner:
+							id: tipo
+							text: "Select"
+							size_hint: None, .1
+							pos_hint: {'center_x':.5}
+
+					BoxLayout:
+						orientation: 'vertical'
+						Label:
+							text: "Etapa"
+							size_hint: None, .1
+							pos_hint: {'center_x':.5}
+						Spinner:
+							id: etapa
+							text: "Select"
+							size_hint: None, .1
+							pos_hint: {'center_x':.5}
+
+					BoxLayout:
+						orientation: 'vertical'
+						Label:
+							text: "Categoria"
+							size_hint: None, .1
+							pos_hint: {'center_x':.5}
+						Spinner:
+							id: cat
+							text: "Select"
+							size_hint: None, .1
+							pos_hint: {'center_x':.5}
+
+
+			BoxLayout:
+				# Big text description
+				orientation: 'vertical'
+				spacing: '10dp'
+				padding: '20dp'
+				Label:
+					text: "Drescripcion"
+					size_hint: None, .1
+				TextInput:
+					id: desc
+
+
+		AnchorLayout:
+			anchor_x: 'center'
+			anchor_y: 'top'
+			size_hint: 1,.1
+			BoxLayout:
+				size_hint: .3, .5
+				# Resto de los botones
+				Button:
+					text: "Cancelar"
+					on_press: root.quit()
+				Button:
+					text: "Guardar"
+					on_press: root.save()
+
 <task_button>:
 	size_hint: None, None
-	size: '20dp','40dp'
+	size: '190dp','80dp'
+	on_press: self.edit()
