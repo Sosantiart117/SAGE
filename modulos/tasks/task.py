@@ -92,7 +92,7 @@ class EditScreen(Screen):
         # Save to DB
         self.task.titulo = self.ids.title.text
         self.task.descripcion = self.ids.desc.text
-        self.task.estatus = "Modificada"
+        self.task.estatus = "Agregada"
         # Falta implementar la forma de tomar el int
         # self.task.proy_id = 0
         # self.task.categoria_id = 0
@@ -101,7 +101,12 @@ class EditScreen(Screen):
         # self.task.time_inicial = 0
         # self.task.time_final = 0
         # self.task.tipo_task = ""
-        self.task.summit_task()
+        
+        if self.task.id_task!= 0:#para identificar si se crea registro o se modifica el existente
+            self.task.update_task()
+        else:
+            self.task.summit_task()
+            
         self.zone.show_tasks()
         # Back to view
         self.parent.transition.direction = 'right'

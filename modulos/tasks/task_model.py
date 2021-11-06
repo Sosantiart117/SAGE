@@ -40,6 +40,13 @@ class Task_modelo():
          self.categoria_id, self.etapa_id, self.score, self.path_carpeta, self.time_creacion,self.time_inicial,self.time_final, self.tipo_task,)
         return info 
 
+    #se genera la tupla para modificar los registros existentes
+    def get_tupla_for_update(self):
+        info = (self.titulo, self.descripcion, self.estatus, self.proy_id,
+         self.categoria_id, self.etapa_id, self.score, self.path_carpeta, self.time_creacion,
+         self.time_inicial,self.time_final, self.tipo_task, self.id_task)#se agrega el id_task al final como parametro del where
+        return info 
+
     #se inicializan los valores desde una lista/ tupla de entrada
     def set_valores_individuales(self, lista):
         self.id_task = lista[0]
@@ -73,5 +80,21 @@ class Task_modelo():
             return cur.fetchall()
         except sqlite3.Error as err :
             return  None
+        finally:
+            cur.close()
+
+    #Se realizan las updates a los registros
+    def update_task(self): # Retorna estatus
+        db = sqlite3.connect(Sage.get_db())
+        cur = db.cursor()
+        try:
+            cur.execute(""" UPDATE tasks
+            SET Titulo= ?, Descripcion= ?, Estatus= ?, Proyecto_Id = ?, Categoria_Id = ?,
+            Etapa_Id = ?, Score = ?, Ruta_Carpeta = ?, Fecha_Creacion = ?, Fecha_Inicial = ?, Fecha_Final = ?, Tipo_task= ?
+            WHERE Id_Tasks= ?""", self.get_tupla_for_update())
+            db.commit()
+            return "Modificación exitoso"        
+        except sqlite3.Error as err:
+            return "Error en la modificación del registro"
         finally:
             cur.close()
