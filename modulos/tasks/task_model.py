@@ -22,11 +22,13 @@ class Task_modelo():
     def summit_task(self): # Retorna estatus
         db = sqlite3.connect(Sage.get_db())
         cur = db.cursor()
-        try:
-            cur.execute(""" INSERT INTO tasks
+        #cambio por generar scripts para registrar valores numéricos 
+        script = """ INSERT INTO tasks
             (Titulo, Descripcion, Estatus, Proyecto_Id, Categoria_Id,
             Etapa_Id, Score, Ruta_Carpeta, Fecha_Creacion, Fecha_Inicial, Fecha_Final, Tipo_task)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", self.get_tupla_for_summit())
+            VALUES ('{}', '{}', '{}', {}, {}, {}, {}, '{}', {}, {}, {}, '{}');""".format(self.get_tupla_for_summit())
+        try:
+            cur.executescript(script)
             db.commit()
             return "Registro exitoso"        
         except sqlite3.Error as err:
@@ -87,14 +89,16 @@ class Task_modelo():
     def update_task(self): # Retorna estatus
         db = sqlite3.connect(Sage.get_db())
         cur = db.cursor()
+        script = """ UPDATE tasks
+            SET Titulo= '{}', Descripcion= '{}', Estatus= '{}', Proyecto_Id = {}, Categoria_Id = {},
+            Etapa_Id = {}, Score = {}, Ruta_Carpeta = '{}', Fecha_Creacion = {}, Fecha_Inicial = {}, Fecha_Final = {}, Tipo_task= '{}'
+            WHERE Id_Tasks= {} ;""".format(self.get_tupla_for_update())
         try:
-            cur.execute(""" UPDATE tasks
-            SET Titulo= ?, Descripcion= ?, Estatus= ?, Proyecto_Id = ?, Categoria_Id = ?,
-            Etapa_Id = ?, Score = ?, Ruta_Carpeta = ?, Fecha_Creacion = ?, Fecha_Inicial = ?, Fecha_Final = ?, Tipo_task= ?
-            WHERE Id_Tasks= ?""", self.get_tupla_for_update())
+            cur.executescript(script)
             db.commit()
             return "Modificación exitoso"        
         except sqlite3.Error as err:
             return "Error en la modificación del registro"
         finally:
             cur.close()
+              

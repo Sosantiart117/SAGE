@@ -1,5 +1,6 @@
 # Sage
 from modulos.tasks.task_model import Task_modelo as task_modelo
+from modulos.proyects.proyect_model import Proyect_modelo, Categoria_modelo as pro_modelo, cat_modelo
 # kivy
 import kivy
 from kivy.lang import Builder
@@ -71,11 +72,15 @@ class ViewScreen(Screen):
 class EditScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        #se inicializan las instancias de las clases para manejar los registros 
         self.task = task_modelo()
+        self.proy= pro_modelo()
+        self.cat = cat_modelo()
+        self.etapa= etapa_modelo()
         self.ids.proy.values = self.get_proy()
         self.ids.tipo.values = self.get_tipos()
-        self.ids.etapa.values = self.get_etapas()
-        self.ids.cat.values = self.get_cat()
+        self.ids.etapa.values = self.get_etapas(None)# se quitaría la inicialización
+        self.ids.cat.values = self.get_cat(None)     # cuando se implementen los registros
         
     def set_task(self, task):
         self.task = task
@@ -118,23 +123,40 @@ class EditScreen(Screen):
         # Back to view
         self.parent.transition.direction = 'right'
         self.parent.current = 'view'
+    
+    #cuando se seleccionan valores en los spinners
+    def spinner_proy_clicked(self, name_proy):
+        self.task.proy_id = self.proy.get_id_proy_from_str(nom_proy) # se inicializa el valor del id_proy
+        self.ids.cat.values = self.get_cat(self.task.proy_id)
 
+    def spinner_cat_clicked(self, name_cat):
+        self.task.categoria_id = self.cat.get_id_cat_from_str(name_cat, self.task.proy_id)
+        self.ids.etapa.values = self.get_etapa(self.task.categoria_id)
+
+    def spinner_etapa_clicked(self, name_etapa):
+        self.task.etapa_id = self.etapa.get_id_etapa_from_str(name_etapa, self.task.categoria_id) 
+
+    def spinner_tipos_clicked(self, name_tipo):
+        self.task.tipo_task = name_tipo           
 
     # De la base de datos cada uno de los modelos
     def get_proy(self):
+        #return self.proy.get_titulos_proy()
         return ['SAGE','Por HAver','Escuela']
         pass
 
-    def get_cat(self):
+    def get_cat(self, id_proy):
+        #return self.cat.get_titulos_cat(id_proy)
         return ['Primera','Segunda']
         pass
 
-    def get_etapas(self):
+    def get_etapas(self, id_cat):
+        #return self.task.get_titulos_etapa(id_cat)
         return ['UNo','dos']
         pass
 
     def get_tipos(self):
-        return ['UNo','dos']
+        return ['Evento','Tarea','Recordatorio']
         pass
 
 class Views(ScreenManager):
