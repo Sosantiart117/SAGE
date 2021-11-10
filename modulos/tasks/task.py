@@ -81,6 +81,23 @@ class EditScreen(Screen):
         self.ids.tipo.values = self.get_tipos()
         self.ids.etapa.values = self.get_etapas(None)# se quitaría la inicialización
         self.ids.cat.values = self.get_cat(None)     # cuando se implementen los registros
+        #variables para las fechas
+        self.ids.ao_ini.values= self.get_ao()
+        self.ids.hora_ini.values= self.get_hora()
+        self.ids.minu_ini.values = self.get_minu()
+        self.ids.ao_fin.values = self.get_ao()
+        self.ids.hora_fin.values = self.get_hora()
+        self.ids.minu_fin.values = self.get_minu()
+        self.ao_ini=0
+        self.mes_ini=0
+        self.dia_ini=0
+        self.hora_ini= 0
+        self.minu_ini=0
+        self.ao_final=0
+        self.mes_final=0
+        self.dia_final=0
+        self.hora_final=0
+        self.minu_final=0
         
     def set_task(self, task):
         self.task = task
@@ -137,7 +154,41 @@ class EditScreen(Screen):
         self.task.etapa_id = self.etapa.get_id_etapa_from_str(name_etapa, self.task.categoria_id) 
 
     def spinner_tipos_clicked(self, name_tipo):
-        self.task.tipo_task = name_tipo           
+        self.task.tipo_task = name_tipo          
+
+    def spinner_ao_ini_clicked(self, valor): 
+        self.ao_ini = valor
+        self.ids.mes_ini.values= self.get_mes()
+
+    def spinner_mes_ini_clicked(self, valor):
+        self.mes_ini= valor
+        self.ids.dia_ini.values= self.get_dia(self.mes_ini,self.ao_ini)
+
+    def spinner_dia_ini_clicked(self,valor):
+        self.dia_ini= valor
+
+    def spinner_hora_ini_clicked(self,valor):
+        self.hora_ini= valor
+
+    def spinner_minu_ini_clicked(self,valor):
+        self.minu_ini = valor
+
+    def spinner_ao_fin_clicked(self, valor): 
+        self.ao_final = valor
+        self.ids.mes_fin.values= self.get_mes()
+
+    def spinner_mes_fin_clicked(self, valor):
+        self.mes_final= valor
+        self.ids.dia_fin.values= self.get_dia(self.mes_final,self.ao_final)
+
+    def spinner_dia_fin_clicked(self,valor):
+        self.dia_final= valor
+
+    def spinner_hora_fin_clicked(self,valor):
+        self.hora_final= valor
+
+    def spinner_minu_fin_clicked(self,valor):
+        self.minu_final = valor
 
     # De la base de datos cada uno de los modelos
     def get_proy(self):
@@ -158,6 +209,47 @@ class EditScreen(Screen):
     def get_tipos(self):
         return ['Evento','Tarea','Recordatorio']
         pass
+        
+    def get_ao(self):#para construir las listas de años para el selector de fechas
+        lista=[]
+        for ao in range(2020,2030):
+            lista.append(ao)
+        return lista 
+
+    def get_mes(self):#para extraer el mes
+        lista=[]
+        for mes in range(1,12):
+            lista.append(mes)
+        return lista
+
+    def get_dia(self, mes, ao):
+        lista=[]
+        if (mes== 1) or (mes== 3) or  (mes== 5) or  (mes== 7) or (mes== 8) or (mes== 10) or (mes== 12):
+            for dia in range(1,31):
+                lista.append(dia)
+            return lista
+        elif (mes==4) or (mes== 6) or (mes== 9) or (mes== 11):
+            for dia in range(1,30):
+                lista.append(dia)
+            return lista
+        elif mes == 2:
+            for dia in range(1,28):
+                lista.append(dia)
+            if (ao % 4)==0:
+                lista.append(29)
+            return lista
+
+    def get_hora(self):
+        lista=[]
+        for hora in range(0,23):
+            lista.append(hora)
+        return lista
+
+    def get_minu(self):
+        lista=[]
+        for minu in range(0,59):
+            lista.append(minu)
+        return lista
 
 class Views(ScreenManager):
 
