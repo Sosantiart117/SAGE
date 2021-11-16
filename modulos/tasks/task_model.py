@@ -1,8 +1,8 @@
 import sqlite3
 from modulos.Sage import Sage
 
-class Task_modelo():
 
+class Task_modelo:
     def __init__(self):
         self.id_task = 0
         self.titulo = "Sin Titulo"
@@ -12,44 +12,70 @@ class Task_modelo():
         self.categoria_id = 0
         self.etapa_id = 0
         self.score = 0
-        self.path_carpeta= ""
+        self.path_carpeta = ""
         self.time_creacion = 0
         self.time_inicial = 0
         self.time_final = 0
         self.tipo_task = ""
-        
-    #insertar en los campos los valores proporcionados
-    def summit_task(self): # Retorna estatus
+
+    # insertar en los campos los valores proporcionados
+    def summit_task(self):  # Retorna estatus
         db = sqlite3.connect(Sage.get_db())
         cur = db.cursor()
-        #cambio por generar scripts para registrar valores numéricos 
+        # cambio por generar scripts para registrar valores numéricos
         script = """ INSERT INTO tasks
             (Titulo, Descripcion, Estatus, Proyecto_Id, Categoria_Id,
             Etapa_Id, Score, Ruta_Carpeta, Fecha_Creacion, Fecha_Inicial, Fecha_Final, Tipo_task)
-            VALUES ('{}', '{}', '{}', {}, {}, {}, {}, '{}', {}, {}, {}, '{}');""".format(self.get_tupla_for_summit())
+            VALUES ('{}', '{}', '{}', {}, {}, {}, {}, '{}', {}, {}, {}, '{}');""".format(
+            *self.get_tupla_for_summit()
+        )
         try:
             cur.executescript(script)
             db.commit()
-            return "Registro exitoso"        
+            return "Registro exitoso"
         except sqlite3.Error as err:
             return "Error en la creación del registro"
         finally:
             cur.close()
 
-    #se genera la tupla para insertar los registros
+    # se genera la tupla para insertar los registros
     def get_tupla_for_summit(self):
-        info = (self.titulo, self.descripcion, self.estatus, self.proy_id,
-         self.categoria_id, self.etapa_id, self.score, self.path_carpeta, self.time_creacion,self.time_inicial,self.time_final, self.tipo_task,)
-        return info 
+        info = (
+            self.titulo,
+            self.descripcion,
+            self.estatus,
+            self.proy_id,
+            self.categoria_id,
+            self.etapa_id,
+            self.score,
+            self.path_carpeta,
+            self.time_creacion,
+            self.time_inicial,
+            self.time_final,
+            self.tipo_task,
+        )
+        return info
 
-    #se genera la tupla para modificar los registros existentes
+    # se genera la tupla para modificar los registros existentes
     def get_tupla_for_update(self):
-        info = (self.titulo, self.descripcion, self.estatus, self.proy_id,
-         self.categoria_id, self.etapa_id, self.score, self.path_carpeta, self.time_creacion,
-         self.time_inicial,self.time_final, self.tipo_task, self.id_task)#se agrega el id_task al final como parametro del where
-        return info 
+        info = (
+            self.titulo,
+            self.descripcion,
+            self.estatus,
+            self.proy_id,
+            self.categoria_id,
+            self.etapa_id,
+            self.score,
+            self.path_carpeta,
+            self.time_creacion,
+            self.time_inicial,
+            self.time_final,
+            self.tipo_task,
+            self.id_task,
+        )  # se agrega el id_task al final como parametro del where
+        return info
 
-    #se inicializan los valores desde una lista/ tupla de entrada
+    # se inicializan los valores desde una lista/ tupla de entrada
     def set_valores_individuales(self, lista):
         self.id_task = lista[0]
         self.titulo = lista[1]
@@ -59,46 +85,49 @@ class Task_modelo():
         self.categoria_id = lista[5]
         self.etapa_id = lista[6]
         self.score = lista[7]
-        self.path_carpeta= lista[8]
+        self.path_carpeta = lista[8]
         self.time_creacion = lista[9]
         self.time_inicial = lista[10]
         self.time_final = lista[11]
         self.tipo_task = lista[12]
 
-    #seleccionar registros con valor en específico.
+    # seleccionar registros con valor en específico.
     @classmethod
-    def get_task(cls,  where=None, orden=None):
+    def get_task(cls, where=None, orden=None):
         db = sqlite3.connect(Sage.get_db())
         cur = db.cursor()
         # SObrecarga pytonica
         query = "SELECT * FROM tasks"
-        if  where :
+        if where:
             query += " WHERE :where"
-        elif orden :
+        elif orden:
             query += " ORDER BY :order"
-        query +=";"
+        query += ";"
         try:
-            cur.execute( query, { "where": where, "order": orden})
+            cur.execute(query, {"where": where, "order": orden})
             return cur.fetchall()
-        except sqlite3.Error as err :
-            return  None
+        except sqlite3.Error as err:
+            return None
         finally:
             cur.close()
 
-    #Se realizan las updates a los registros
-    def update_task(self): # Retorna estatus
+    # Se realizan las updates a los registros
+    def update_task(self):  # Retorna estatus
         db = sqlite3.connect(Sage.get_db())
         cur = db.cursor()
         script = """ UPDATE tasks
-            SET Titulo= '{}', Descripcion= '{}', Estatus= '{}', Proyecto_Id = {}, Categoria_Id = {},
-            Etapa_Id = {}, Score = {}, Ruta_Carpeta = '{}', Fecha_Creacion = {}, Fecha_Inicial = {}, Fecha_Final = {}, Tipo_task= '{}'
-            WHERE Id_Tasks= {} ;""".format(self.get_tupla_for_update())
+            SET Titulo= '{}', Descripcion= '{}', Estatus= '{}', Proyecto_Id =
+            {}, Categoria_Id = {}, Etapa_Id = {}, Score = {}, Ruta_Carpeta = '{}',
+            Fecha_Creacion = {}, Fecha_Inicial = {}, Fecha_Final = {},
+            Tipo_task= '{}'
+            WHERE Id_Tasks= {} ;""".format(
+            *self.get_tupla_for_update()
+        )
         try:
             cur.executescript(script)
             db.commit()
-            return "Modificación exitoso"        
+            return "Modificación exitoso"
         except sqlite3.Error as err:
             return "Error en la modificación del registro"
         finally:
             cur.close()
-              

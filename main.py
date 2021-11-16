@@ -1,13 +1,16 @@
 # Sage
 from modulos.Sage import Sage
-from modulos.tasks.task import Task 
+from modulos.tasks.task import Task
 from modulos.notes.note import Note
 from modulos.calendar.calendar import Calendar
 from modulos.proyects.proyect import Proyect
+
 # Kivy
 import kivy
-kivy.require('2.0.0')
+
+kivy.require("2.0.0")
 from kivy.app import App
+
 # from kivy.metrics import dp
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
@@ -15,11 +18,13 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, BooleanProperty
 from kivy.uix.screenmanager import ScreenManager
 
+
 class SageApp(App):
-    """ Clase de la app """
+    """Clase de la app"""
 
     def build(self):
         return MainLayout()
+
 
 class MainLayout(FloatLayout):
     pass
@@ -28,16 +33,18 @@ class MainLayout(FloatLayout):
 class MainBar(BoxLayout):
     title = StringProperty("Tareas")
 
-    def set_title(self,title):
+    def set_title(self, title):
         self.title = title
 
+
 class SageZone(ScreenManager):
-    def __init__(self,**kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.add_widget(Task())
         self.add_widget(Calendar())
         self.add_widget(Note())
         self.add_widget(Proyect())
+
 
 class Navmenu(BoxLayout):
     # def __init__(self,**kwargs):
@@ -92,9 +99,11 @@ class Navmenu(BoxLayout):
             zone.transition.direction = "up"
             zone.current = "Proyects"
 
+
 def main():
     Sage.init()
     SageApp().run()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

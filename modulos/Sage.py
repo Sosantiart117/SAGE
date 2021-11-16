@@ -1,9 +1,10 @@
-import os 
+import os
 import modulos.Build_DB as db
 
-class Sage():
 
-    db_file = os.path.join(os.getcwd() , "App_Data.db")
+class Sage:
+
+    db_file = os.path.join(os.getcwd(), "App_Data.db")
 
     @classmethod
     def get_db(cls):
@@ -11,8 +12,8 @@ class Sage():
 
     @classmethod
     def init(cls):
-        """ Metodo que inicia el ambiente para el programa """ 
+        """Metodo que inicia el ambiente para el programa"""
 
         # Checa si hay base de datos
-        if not os.path.isfile(cls.db_file): 
+        if not os.path.isfile(cls.db_file):
             db.build(cls.db_file)

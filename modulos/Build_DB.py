@@ -1,11 +1,13 @@
 import sqlite3
 
+
 def build(file):
     con = sqlite3.connect(file)
 
     try:
         # TABLA PROYECTOS
-        con.execute("""
+        con.execute(
+            """
                 CREATE TABLE "proyectos" (
                     "Id_proyecto"	INTEGER,
                     "Titulo"	TEXT,
@@ -15,10 +17,12 @@ def build(file):
                     "Fecha_Creacion"	INTEGER,
                     PRIMARY KEY("Id_proyecto" AUTOINCREMENT)
                 );
-        """) 
+        """
+        )
 
-        #TABLA CATEGORÍAS
-        con.execute("""
+        # TABLA CATEGORÍAS
+        con.execute(
+            """
                 CREATE TABLE "categorias" (
                     "Id_categorias"	INTEGER UNIQUE,
                     "Titulo"	TEXT UNIQUE,
@@ -30,10 +34,12 @@ def build(file):
                     PRIMARY KEY("Id_categorias" AUTOINCREMENT),
                     FOREIGN KEY("Proyecto_Id") REFERENCES "proyectos"("Id_proyecto")
                 );   
-        """)  
-        
-        #TABLA ETAPAS
-        con.execute("""
+        """
+        )
+
+        # TABLA ETAPAS
+        con.execute(
+            """
                     CREATE TABLE "etapas" (
                         "Id_etapa"	INTEGER UNIQUE,
                         "Titulo"	TEXT,
@@ -43,10 +49,12 @@ def build(file):
                         FOREIGN KEY("Categoria_Id") REFERENCES "categorias"("Id_categorias"),
                         PRIMARY KEY("Id_etapa" AUTOINCREMENT)
                     );    
-        """)  
+        """
+        )
 
-        #TABLA TASKS
-        con.execute("""
+        # TABLA TASKS
+        con.execute(
+            """
                     CREATE TABLE "tasks" (
                         "Id_Tasks"	INTEGER,
                         "Titulo"	TEXT DEFAULT 'Sin Titulo',
@@ -66,12 +74,12 @@ def build(file):
                         FOREIGN KEY("Proyecto_Id") REFERENCES "proyectos"("Id_proyecto"),
                         PRIMARY KEY("Id_Tasks" AUTOINCREMENT)
                     );  
-        """)  
+        """
+        )
 
         print("Se creó la tabla correctamente")
     except sqlite3.OperationalError:
         msg = "Error al crear las tablas"
         print(msg)
 
-    con.close()     
-
+    con.close()
