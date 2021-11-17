@@ -2,72 +2,44 @@
 	name:"Calendar"
 	# Layout base para el componente
 	BoxLayout:
-		padding: "5dp"
-		spacing: "5dp"
+		padding: "10dp"
+		spacing: "10dp"
 		orientation: 'vertical'
-		BoxLayout:
-			size_hint: 1,0.1
-			pos_hint: {'x':0,'top':1}
-			Label:
-				text: root.contenido
-			BoxLayout:
-				padding: "5dp"
-				spacing: "5dp"
-				Button:
-					text: "Mes"
-					on_press: root.ids.pager.to_mes()
-				Button:
-					text: "Semana"
-					on_press: root.ids.pager.to_sem()
-				Button:
-					text: "Dia"
-					on_press: root.ids.pager.to_dia()
-				Button:
-					text: "Año"
-					on_press: root.ids.pager.to_ao()
+		Spinner:
+			id: view_selector
+			size_hint: None,0.1
+			width: "150dp"
+			pos_hint: {'right':1,'top':1}
+			text: "Mes"
+			values: ["Mes","Día","Semana","Año"]
+			on_text: pager.move_to(view_selector.text)
 		cal_zone:
 			size_hint: 1,0.9
 			pos_hint: {'x':0,'y':0}
 			id: pager
 
-<Mes>:
+<MesView>:
 	name: "Mes"
-	GridLayout:
-		id: grid
-		cols: 8
-		rows: 6
-		padding: "5dp"
-		spacing: "5dp"
-		Label:
-			text: "No."
-			size_hint: .4,.3
-		Label:
-			text: "Dom"
-			size_hint: 1,.3
-		Label:
-			text: "Lun"
-			size_hint: 1,.3
-		Label:
-			text: "Mar"
-			size_hint: 1,.3
-		Label:
-			text: "Mie"
-			size_hint: 1,.3
-		Label:
-			text: "Jue"
-			size_hint: 1,.3
-		Label:
-			text: "Vie"
-			size_hint: 1,.3
-		Label:
-			text: "Sab"
-			size_hint: 1,.3
-		
+	BoxLayout:
+		id: mes_box
+		orientation: 'vertical'
+		BoxLayout:
+			size_hint:1,.1
+			padding: "5dp"
+			spacing: "5dp"
+			Spinner:
+				id: sel_mon
+				on_text: root.to_mon(self.text)
+			Spinner:
+				size_hint:.33,1
+				id: sel_yea
+				on_text: root.to_yea(self.text)
 
-<Dia>:
+<DiaView>:
 	name: "Dia"
 	Label:
 		text: "Soy un day"
+	Dia:
 
 <Semana>:
 	name: "Semana"
@@ -76,5 +48,23 @@
 
 <Ao>:
 	name: "Ao"
-	Label:
-		text: "Soy un ao"
+	BoxLayout:
+		id: ao_box
+		orientation: 'vertical'
+		padding: "5dp"
+		spacing: "5dp"
+		BoxLayout:
+			size_hint:1,.1
+			padding: "5dp"
+			spacing: "5dp"
+			Spinner:
+				id: sel_yea
+				on_text: root.to_yea(self.text)
+
+# Objetos para las vista
+
+<Mes>:
+	# cols: 8
+	orientation: 'vertical'
+	padding: "5dp"
+	spacing: "10dp"
