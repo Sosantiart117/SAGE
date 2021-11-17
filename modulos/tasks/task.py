@@ -179,38 +179,38 @@ class EditScreen(Screen):
         self.task.tipo_task = name_tipo
 
     def spinner_ao_ini_clicked(self, valor):
-        self.ao_ini = valor
+        self.ao_ini = int(valor)
         self.ids.mes_ini.values = self.get_mes()
 
     def spinner_mes_ini_clicked(self, valor):
-        self.mes_ini = valor
+        self.mes_ini = int(valor)
         self.ids.dia_ini.values = self.get_dia(self.mes_ini, self.ao_ini)
 
     def spinner_dia_ini_clicked(self, valor):
-        self.dia_ini = valor
+        self.dia_ini = int(valor)
 
     def spinner_hora_ini_clicked(self, valor):
-        self.hora_ini = valor
+        self.hora_ini = int(valor)
 
     def spinner_minu_ini_clicked(self, valor):
-        self.minu_ini = valor
+        self.minu_ini = int(valor)
 
     def spinner_ao_fin_clicked(self, valor):
-        self.ao_final = valor
+        self.ao_final = int(valor)
         self.ids.mes_fin.values = self.get_mes()
 
     def spinner_mes_fin_clicked(self, valor):
-        self.mes_final = valor
+        self.mes_final = int(valor)
         self.ids.dia_fin.values = self.get_dia(self.mes_final, self.ao_final)
 
     def spinner_dia_fin_clicked(self, valor):
-        self.dia_final = valor
+        self.dia_final = int(valor)
 
     def spinner_hora_fin_clicked(self, valor):
-        self.hora_final = valor
+        self.hora_final = int(valor)
 
     def spinner_minu_fin_clicked(self, valor):
-        self.minu_final = valor
+        self.minu_final = int(valor)
 
     # De la base de datos cada uno de los modelos
     def get_proy(self):
@@ -234,14 +234,17 @@ class EditScreen(Screen):
 
     def get_ao(self):  # para construir las listas de años para el selector de fechas
         lista = []
-        for ao in range(2020, 2030):
+        for ao in range(2020, 2031):
             lista.append(str(ao))
         return lista
 
     def get_mes(self):  # para extraer el mes
         lista = []
-        for mes in range(1, 12):
-            lista.append(str(mes))
+        for mes in range(1, 13):
+            if mes<10:
+                lista.append("0"+str(mes))
+            else:
+                lista.append(str(mes))
         return lista
 
     def get_dia(self, mes, ao):
@@ -255,30 +258,45 @@ class EditScreen(Screen):
             or (mes == 10)
             or (mes == 12)
         ):
-            for dia in range(1, 31):
-                lista.append(str(dia))
+            for dia in range(1, 32):
+                if dia<10:
+                    lista.append("0"+str(dia))
+                else:
+                    lista.append(str(dia))
             return lista
         elif (mes == 4) or (mes == 6) or (mes == 9) or (mes == 11):
-            for dia in range(1, 30):
-                lista.append(str(dia))
+            for dia in range(1, 31):
+                if dia<10:
+                    lista.append("0"+str(dia))
+                else:
+                    lista.append(str(dia))
             return lista
         elif mes == 2:
-            for dia in range(1, 28):
-                lista.append(str(dia))
+            for dia in range(1, 29):
+                if dia<10:
+                    lista.append("0"+str(dia))
+                else:
+                    lista.append(str(dia))
             if (ao % 4) == 0:
                 lista.append(str(29))
             return lista
 
     def get_hora(self):
         lista = []
-        for hora in range(0, 23):
-            lista.append(str(hora))
+        for hora in range(0, 24):
+            if hora<10:
+                lista.append("0"+str(hora))
+            else:
+                lista.append(str(hora))
         return lista
 
     def get_minu(self):
         lista = []
-        for minu in range(0, 59):
-            lista.append(str(minu))
+        for minu in range(0, 60):
+            if minu<10:
+                lista.append("0"+str(minu))
+            else:
+                lista.append(str(minu))
         return lista
 
 

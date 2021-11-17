@@ -53,87 +53,90 @@
 			# Options Panel
 				BoxLayout:
 					orientation: 'vertical'
-					padding: '5dp'
-					spacing: '5dp'
+					spacing: '25dp'
 					
 					BoxLayout:
 						# Date selectors
+						orientation: 'vertical'
+						spacing: '30dp'
 						BoxLayout:
 							orientation: 'vertical'
+							spacing: '5dp'
 							Label:
 								text: "Fecha inicial"
-								size_hint: None, .1
-								pos_hint: {'center_x':.5}
+								size_hint: .1, .1
+								pos_hint: {'center_y:':.5}
 							BoxLayout:
 								orientation: 'horizontal'
 								Spinner:
 									id: ao_ini
 									text: "Año"
-									size_hint: None, .1
-									pos_hint: {'center_x':.5}
-									#on_text: root.spinner_ao_ini_clicked(ao_ini.text)
+									size_hint: .1, .2
+									pos_hint: {'center_x':.05}
+									on_text: root.spinner_ao_ini_clicked(ao_ini.text)
 								Spinner:
 									id: mes_ini
 									text: "Mes"
-									size_hint: None, .1
-									pos_hint: {'center_x':.5}
-									#on_text: root.spinner_mes_ini_clicked(mes_ini.text)
+									size_hint: .1, .2
+									pos_hint: {'center_x':.05}
+									on_text: root.spinner_mes_ini_clicked(mes_ini.text)
 								Spinner:
 									id: dia_ini
 									text: "Día"
-									size_hint: None, .1
-									pos_hint: {'center_x': .5}
-									#on_text: root.spinner_dia_ini_clicked(dia_ini.text)
+									size_hint: .1, .2
+									pos_hint: {'center_x': .05}
+									on_text: root.spinner_dia_ini_clicked(dia_ini.text)
 								Spinner:
 									id: hora_ini
 									text: "Hora"
-									size_hint: None, .1
-									pos_hint: {'center_x': .5}
-									#on_text: root.spinner_hora_ini_clicked(hora_ini.text)
+									size_hint: .1, .2
+									pos_hint: {'center_x': .05}
+									on_text: root.spinner_hora_ini_clicked(hora_ini.text)
 								Spinner:
 									id: minu_ini
 									text: "Minuto"
-									size_hint: None, .1
-									pos_hint: {'center_x': .5}
-									#on_text: root.spinner_minu_ini_clicked(minu_ini.text)
+									size_hint: .1, .2
+									pos_hint: {'center_x': .05}
+									on_text: root.spinner_minu_ini_clicked(minu_ini.text)
 						BoxLayout:
 							orientation: 'vertical'
+							spacing: '5dp'
 							Label:
 								text: "Fecha final"
-								size_hint: None, .1
-								pos_hint: {'center_x':.5}
+								size_hint: .1, .1
+								pos_hint: {'center_y':1}
 							BoxLayout:
 								orientation: 'horizontal'
 								Spinner:
 									id: ao_fin
 									text: "Año"
-									size_hint: None, .1
+									size_hint: .1, .2
 									pos_hint: {'center_x':.5}
-									#on_text: root.spinner_ao_fin_clicked(ao_fin.text)
+									on_text: root.spinner_ao_fin_clicked(ao_fin.text)
 								Spinner:
 									id: mes_fin
 									text: "Mes"
-									size_hint: None, .1
+									size_hint: .1, .2
 									pos_hint: {'center_x':.5}
-									#on_text: root.spinner_mes_fin_clicked(mes_fin.text)
+									on_text: root.spinner_mes_fin_clicked(mes_fin.text)
 								Spinner:
 									id: dia_fin
 									text: "Día"
-									size_hint: None, .1
+									size_hint: .1, .2
 									pos_hint: {'center_x': .5}
-									#on_text: root.spinner_dia_fin_clicked(dia_fin.text)
+									on_text: root.spinner_dia_fin_clicked(dia_fin.text)
 								Spinner:
 									id: hora_fin
 									text: "Hora"
-									size_hint: None, .1
+									size_hint: .1, .2
 									pos_hint: {'center_x': .5}
-									#on_text: root.spinner_hora_fin_clicked(hora_fin.text)
+									on_text: root.spinner_hora_fin_clicked(hora_fin.text)
 								Spinner:
 									id: minu_fin
 									text: "Minuto"
-									size_hint: None, .1
+									size_hint: .1, .2
 									pos_hint: {'center_x': .5}
-									#on_text: root.spinner_minu_fin_clicked(minu_fin.text)
+									on_text: root.spinner_minu_fin_clicked(minu_fin.text)
 					BoxLayout:
 						# Title
 						spacing: '10dp'
@@ -147,7 +150,6 @@
 							size_hint: 1, None
 							height: self.minimum_height
 							multiline: False
-
 				GridLayout:
 					cols: 2
 					rows: 2
