@@ -29,15 +29,21 @@ class TaskZone(StackLayout):
         self.show_tasks()
 
     def get_tasks(self):
-        return task_modelo().get_task()
+        task = task_modelo().get_task()
+        return task
+  
 
     def show_tasks(self):
         self.clear_widgets()
-        for task in self.get_tasks():
-            b = task_button()
-            b.set_task(task)
-            self.add_widget(b)
-        self.add_widget(task_button().set_add())
+        try:
+            for task in self.get_tasks():
+                b = task_button()
+                b.set_task(task)
+                self.add_widget(b)
+        except TypeError:
+            print("No hay registros")        
+        finally:
+            self.add_widget(task_button().set_add())
 
 
 class task_button(Button):
@@ -88,8 +94,8 @@ class EditScreen(Screen):
         self.etapa = etapa_modelo()
         self.ids.proy.values = self.get_proy()
         self.ids.tipo.values = self.get_tipos()
-        self.ids.etapa.values = self.get_etapas(None)  # se quitaría la inicialización
-        self.ids.cat.values = self.get_cat(None)  # cuando se implementen los registros
+        self.ids.etapa.values = self.get_etapas('')  # se quitaría la inicialización
+        self.ids.cat.values = self.get_cat('')  # cuando se implementen los registros
         # variables para las fechas
         self.ids.ao_ini.values = self.get_ao()
         self.ids.hora_ini.values = self.get_hora()
