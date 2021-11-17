@@ -223,16 +223,19 @@ class DiaView(Screen):
 
 
 class Dia(BoxLayout):
-    # def __init__(self, **kwargs):
-    #     super().__init__(**kwargs)
-    pass
-
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.orientation = 'vertical'
+        for i in range(24):
+            self.add_widget(Button())
 
 class Semana(Screen):
-    # def __init__(self, **kwargs):
-    #     super().__init__(**kwargs)
-    pass
-
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        bx = BoxLayout()
+        for i in range(7):
+            bx.add_widget(Dia())
+        self.add_widget(bx)
 
 class Ao(Screen):
     def __init__(self,year=Calendar.selected_yea, **kwargs):
@@ -268,7 +271,6 @@ class Ao(Screen):
             bl.add_widget(Mes(year_view=True, mes=i + 1,year=year))
             grid.add_widget(bl)
         return grid
-
 
     def show_yea(self,year):
         self.ids.ao_box.remove_widget(self.yea)
