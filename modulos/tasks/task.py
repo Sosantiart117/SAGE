@@ -81,7 +81,7 @@ class task_button(Button):
 
 class ViewScreen(Screen):
     # Sorting methods
-    print("hola")
+    pass
 
 
 class EditScreen(Screen):
