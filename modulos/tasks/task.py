@@ -18,6 +18,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.stacklayout import StackLayout
 from kivy.properties import StringProperty, BooleanProperty
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 Builder.load_file("modulos/tasks/task.kv")
 
@@ -142,10 +144,10 @@ class EditScreen(Screen):
         # self.task.proy_id = 0
         # self.task.categoria_id = 0
         # self.task.etapa_id = 0
-        fecha_i = self.setFechasSegundos(
+        fecha_i = self.getFechasSegundos(
             self.ao_ini, self.mes_ini, self.dia_ini, self.hora_ini, self.minu_ini
         )
-        fecha_f = self.setFechasSegundos(
+        fecha_f = self.getFechasSegundos(
             self.ao_final,
             self.mes_final,
             self.dia_final,
