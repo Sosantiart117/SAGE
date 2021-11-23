@@ -128,10 +128,10 @@ class EditScreen(Screen):
     def update(self):
         self.ids.desc.text = self.task.descripcion
         self.ids.title.text = self.task.titulo
-        self.ids.proy.text = self.proy.get_titulos_proy(self.task.proy_id)
-        self.ids.tipo.text = self.task.tipo_task
-        self.ids.cat.text = self.cat.get_titulos_cat(0, self.task.categoria_id)
-        self.ids.etapa.text = self.etapa.get_titulos_etapa(0, self.task.etapa_id)
+        #self.ids.proy.text = self.proy.get_titulos_proy(self.task.proy_id)
+        #self.ids.tipo.text = self.task.tipo_task
+        #self.ids.cat.text = self.cat.get_titulos_cat(0, self.task.categoria_id)
+        #self.ids.etapa.text = self.etapa.get_titulos_etapa(0, self.task.etapa_id)
         self.setFechas_ini(self.task.time_inicial)
         self.setFechas_fin(self.task.time_final)
 
@@ -155,8 +155,8 @@ class EditScreen(Screen):
             self.minu_final,
         )
         if fecha_i < fecha_f:
-            # self.task.time_inicial = fecha_i
-            # self.task.time_final = fecha_f
+            self.task.time_inicial = fecha_i
+            self.task.time_final = fecha_f
             if (
                 self.task.id_task != 0
             ):  # para identificar si se crea registro o se modifica el existente
@@ -169,8 +169,8 @@ class EditScreen(Screen):
                 )
                 alerta.open()
             else:
-                # self.task.time_creacion = int(datetime.now().timestamp())
-                # self.task.summit_task()
+                self.task.time_creacion = int(datetime.now().timestamp())
+                #self.task.summit_task()
                 alerta = Popup(
                     title="Inserción de registro",
                     content=Label(text="Se insertó el registro exitosamente."),
@@ -254,17 +254,17 @@ class EditScreen(Screen):
 
     # De la base de datos cada uno de los modelos
     def get_proy(self):
-        # return self.proy.get_titulos_proy()
+        # return self.proy.get_titulos_proy(0)
         return ["SAGE", "Por HAver", "Escuela"]
         pass
 
     def get_cat(self, id_proy):
-        # return self.cat.get_titulos_cat(id_proy)
+        # return self.cat.get_titulos_cat(id_proy,0)
         return ["Primera", "Segunda"]
         pass
 
     def get_etapas(self, id_cat):
-        # return self.task.get_titulos_etapa(id_cat)
+        # return self.task.get_titulos_etapa(id_cat,0)
         return ["UNo", "dos"]
         pass
 
