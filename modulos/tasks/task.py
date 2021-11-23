@@ -6,6 +6,9 @@ from modulos.proyects.proyect_model import (
     Etapa_modelo as etapa_modelo,
 )
 
+#datetime
+from datetime import datetime
+
 # kivy
 import kivy
 from kivy.lang import Builder
@@ -114,6 +117,7 @@ class EditScreen(Screen):
         self.hora_final = 0
         self.minu_final = 0
 
+
     def set_task(self, task):
         self.task = task
 
@@ -124,6 +128,12 @@ class EditScreen(Screen):
     def update(self):
         self.ids.desc.text = self.task.descripcion
         self.ids.title.text = self.task.titulo
+        self.ids.proy.text = self.proy.get_titulos_proy(self.task.proy_id)
+        self.ids.tipo.text = self.task.tipo_task
+        self.ids.cat.text = self.cat.get_titulos_cat(0,self.task.categoria_id)
+        self.ids.etapa.text = self.etapa.get_titulos_etapa(0, self.task.etapa_id)
+        self.setFechas_ini(self.task.time_inicial)
+        self.setFechas_fin(self.task.time_final)
 
     def save(self):
         # Save to DB
@@ -134,22 +144,34 @@ class EditScreen(Screen):
         # self.task.proy_id = 0
         # self.task.categoria_id = 0
         # self.task.etapa_id = 0
-        # self.task.time_creacion = 0
-        # self.task.time_inicial = 0
-        # self.task.time_final = 0
-        # self.task.tipo_task = ""
-
-        if (
-            self.task.id_task != 0
-        ):  # para identificar si se crea registro o se modifica el existente
-            self.task.update_task()
+        fecha_i= self.setFechasSegundos(self.ao_ini, self.mes_ini, self.dia_ini, self.hora_ini, self.minu_ini)
+        fecha_f= self.setFechasSegundos(self.ao_final, self.mes_final, self.dia_final,self.hora_final,self.minu_final)
+        if fecha_i<fecha_f:
+            #self.task.time_inicial = fecha_i 
+            #self.task.time_final = fecha_f
+            if self.task.id_task != 0:  # para identificar si se crea registro o se modifica el existente
+                #self.task.update_task()
+                alerta=Popup(title='Modificación de registro',
+                content=Label(text='Se modificó el registro exitosamente.'),
+                size_hint=(None, None), size=(400, 400))
+                alerta.open()
+            else:
+                #self.task.time_creacion = int(datetime.now().timestamp())
+                #self.task.summit_task()
+                alerta=Popup(title='Inserción de registro',
+                content=Label(text='Se insertó el registro exitosamente.'),
+                size_hint=(None, None), size=(400, 400))
+                alerta.open()
+            self.zone.show_tasks()
+            # Back to view
+            self.parent.transition.direction = "right"
+            self.parent.current = "view"
         else:
-            self.task.summit_task()
-
-        self.zone.show_tasks()
-        # Back to view
-        self.parent.transition.direction = "right"
-        self.parent.current = "view"
+            alerta= Popup(title='Error al registrar',
+                content=Label(text='Fechas inválidas.'),
+                size_hint=(None, None), size=(400, 400))
+            alerta.open()
+              
 
     def quit(self):
         # Tira la info
@@ -299,6 +321,65 @@ class EditScreen(Screen):
                 lista.append(str(minu))
         return lista
 
+    def getFechasSegundos(self, año, mes, dia, hora, minuto):
+        fecha = datetime(año,mes,dia,hora,minuto,0).timestamp()
+        return int(fecha)
+
+    #para extraer el timestamp de las fechas para task generadas en el editor
+    def setFechas_ini(self, fechaTimestamp):
+        if fechaTimestamp!=0:
+            fecha= datetime.fromtimestamp(fechaTimestamp)
+            self.ao_ini= fecha.year
+            self.ids.ao_ini.text= str(self.ao_ini)
+            self.mes_ini = fecha.month
+            if self.mes_ini <10:
+                self.ids.mes_ini.text= "0"+str(self.mes_ini)
+            else:
+                self.ids.mes_ini.text= str(self.mes_ini)
+            self.dia_ini = fecha.day
+            if self.dia_ini <10:
+                self.ids.dia_ini.text= "0"+str(self.dia_ini)
+            else:
+                self.ids.dia_ini.text= str(self.dia_ini)
+            self.hora_ini = fecha.hour
+            if self.hora_ini <10:
+                self.ids.hora_ini.text= "0"+str(self.hora_ini)
+            else:
+                self.ids.hora_ini.text= str(self.hora_ini)
+            self.minu_ini = fecha.minute
+            if self.minu_ini <10:
+                self.ids.minu_ini.text= "0"+str(self.minu_ini)
+            else:
+                self.ids.minu_ini.text= str(self.minu_ini)
+        
+
+    def setFechas_fin(self, fechaTimestamp):
+        if fechaTimestamp!=0:
+            fecha= datetime.fromtimestamp(fechaTimestamp)
+            self.ao_final= fecha.year
+            self.ids.ao_fin.text= str(self.ao_final)
+            self.mes_final = fecha.month
+            if self.mes_final <10:
+                self.ids.mes_fin.text= "0"+str(self.mes_final)
+            else:
+                self.ids.mes_fin.text= str(self.mes_final)
+            self.dia_final = fecha.day
+            if self.dia_final <10:
+                self.ids.dia_fin.text= "0"+str(self.dia_final)
+            else:
+                self.ids.dia_fin.text= str(self.dia_final)
+            self.hora_final = fecha.hour
+            if self.hora_final <10:
+                self.ids.hora_fin.text= "0"+str(self.hora_final)
+            else:
+                self.ids.hora_fin.text= str(self.hora_final)
+            self.minu_final = fecha.minute
+            if self.minu_final <10:
+                self.ids.minu_fin.text= "0"+str(self.minu_final)
+            else:
+                self.ids.minu_fin.text= str(self.minu_final)
+        
+        
 
 class Views(ScreenManager):
 

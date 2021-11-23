@@ -131,3 +131,15 @@ class Task_modelo:
             return "Error en la modificación del registro"
         finally:
             cur.close()
+
+    def get_task_between(self, min, max):
+        db = sqlite3.connect(Sage.get_db())
+        cur = db.cursor()
+        query = f"""SELECT * FROM tasks WHERE Fecha_Final Between {min} and {max};"""
+        try:
+            cur.executescript(script)
+            return cur.fetchall()
+        except sqlite3.Error as err:
+            return None
+        finally:
+            cur.close()

@@ -78,11 +78,14 @@ class Proyect_modelo:
 
     # los getters para obtener los nombres y el id de los proyectos
     def get_titulos_proy(
-        self,
+        self, id_pro
     ):  # Retorna los titulos de los proyectos para los spinners
         db = sqlite3.connect(Sage.get_db())
         cur = db.cursor()
-        script = """ SELECT Titulo FROM "proyectos" ORDER BY Id_proyecto ;"""
+        if id_pro =="":
+            script = """ SELECT Titulo FROM "proyectos" ORDER BY Id_proyecto ;"""
+        else:
+            script = f""" SELECT Titulo FROM "proyectos" WHERE Id_proyecto={id_pro};"""
         try:
             cur.execute(script)
             return cur.fetchall()
@@ -181,13 +184,16 @@ class Categoria_modelo:  # se crea la clase categorías para las interacciones c
 
     # los getters para obtener los nombres y el id de las categorías
     def get_titulos_cat(
-        self, id_proy
+        self, id_proy, id_cat
     ):  # Retorna los titulos de las categorías para los spinners
         db = sqlite3.connect(Sage.get_db())
         cur = db.cursor()
-        script = """ SELECT Titulo FROM "categorias" WHERE Proyecto_Id = {} ORDER BY Id_categorias ;""".format(
-            id_proy
-        )
+        if id_proy!=0:
+            script = f""" SELECT Titulo FROM "categorias" WHERE Proyecto_Id = {id_proy} ORDER BY Id_categorias ;"""
+        elif id_cat!=0:
+            script = f""" SELECT Titulo FROM "categorias" WHERE Id_categorias = {id_cat};"""
+        else:
+            script = f""" SELECT Titulo FROM "categorias";"""
         try:
             cur.execute(script)
             return cur.fetchall()
@@ -281,13 +287,16 @@ class Etapa_modelo:  # se crea la clase categorías para las interacciones con l
 
     # los getters para obtener los nombres y el id de los proyectos
     def get_titulos_etapa(
-        self, id_cat
+        self, id_cat, id_eta
     ):  # Retorna los titulos de los proyectos para los spinners
         db = sqlite3.connect(Sage.get_db())
         cur = db.cursor()
-        script = """ SELECT Titulo FROM "etapas" WHERE Categoria_Id = {} ORDER BY Id_categorias ;""".format(
-            id_cat
-        )
+        if id_cat!=0:
+            script = f""" SELECT Titulo FROM "etapas" WHERE Categoria_Id = {id_cat} ORDER BY Id_etapa ;"""
+        elif id_eta!=0:
+            script = f""" SELECT Titulo FROM "etapas" WHERE Id_etapa = {id_eta} ;"""
+        else:
+            script = """ SELECT Titulo FROM "etapas";"""
         try:
             cur.execute(script)
             return cur.fetchall()
