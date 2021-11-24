@@ -1,7 +1,7 @@
 <MainLayout>:
-	canvas.before:
+	canvas:
 		Color:
-			rgba: .8,.8,.8,1
+			rgb: 227, 233, 241
 		Rectangle:
 			pos: self.pos
 			size: self.size
@@ -21,34 +21,56 @@
 		SageZone:
 			id: zone
 			padding: "10dp"
-	
+
+		#size_hint: 0.8,0.3
+
 <MainBar>:
 	BoxLayout:
-		Button:
-			text: "Logo"
-			size_hint: .5,1
+		Image:
+			source: 'Logo_2SE.png' #Debe de estar en la carpeta de SAGE, para poder ser leida 
+
 		Label:
 			text: root.title
-			size_hint: 2,1
+			size_hint: 1,1
+			
 		Button:
-			size_hint: None ,1
-			width: '100dp'
-			text: "Perfil"
+			size_hint: .30,.20
+			pos_hint: {'center_x':0.5}
+			Image:
+				source : 'perfil22.png'
+				center_x: self.parent.center_x
+				center_y: self.parent.center_y
+			#width: '100dp'
+			#text: "Perfil"
+				
+
 
 <Navmenu>:
 	orientation: "vertical"
-	padding: '20dp'
-	spacing: '20dp'
+	padding: '0dp' #20
+	spacing: '0dp' #20
 
 	Button: 
-		text: 'Tareas'
+		text: '• Tareas'
+		font_size:28
+		background_color:(.21, .67, 96, .8)
+		bold: True
 		on_press: root.to_task()
 	Button: 
-		text: 'Calendario'
+		text: '• Calendario'
+		font_size:28
+		background_color:(.21, .67, 96, .8)
+		bold: True
 		on_press: root.to_cal()
 	Button: 
-		text: 'Apuntes'
+		text: '• Apuntes'
+		font_size:28
+		background_color:(.21, .67, 96, .8)
+		bold: True
 		on_press: root.to_notes()
 	Button: 
-		text: 'Proyectos'
+		text: '• Proyectos'
+		font_size:28
+		background_color:(.21, .67, 96, .8)
+		bold: True
 		on_press: root.to_proyectos()

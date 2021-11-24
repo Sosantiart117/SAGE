@@ -1,12 +1,16 @@
 # Sage
+from kivy.lang.builder import Builder
+from kivy.uix.image import Image
 from modulos.Sage import Sage
 from modulos.tasks.task import Task
 from modulos.notes.note import Note
 from modulos.calendar.calendar import Calendar
 from modulos.proyects.proyect import Proyect
 
+
 # Kivy
-import kivy
+import kivy 
+
 
 kivy.require("2.0.0")
 from kivy.app import App
@@ -17,7 +21,6 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, BooleanProperty
 from kivy.uix.screenmanager import ScreenManager
-
 
 class SageApp(App):
     """Clase de la app"""
