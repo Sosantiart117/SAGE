@@ -16,26 +16,58 @@ from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, BooleanProperty
-from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import ScreenManager, Screen, CardTransition
 
 
 class SageApp(App):
     """Clase de la app"""
 
     def build(self):
-        return MainLayout()
+        return Main()
 
 
-class MainLayout(FloatLayout):
+class Main(FloatLayout):
     pass
 
-
-class MainBar(BoxLayout):
+class Bar(BoxLayout):
     title = StringProperty("Tareas")
 
     def set_title(self, title):
         self.title = title
 
+    def to_start(self):
+        root = self.parent.ids.main_pager
+        root.transition.direction = 'right'
+        root.current = "start"
+
+
+class MainPager(ScreenManager):
+    pass
+
+class Profile(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.name = 'profile'
+
+class Start(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.add_widget(StartLayout())
+        self.name = 'start'
+
+class StartLayout(FloatLayout):
+    def to_main(self,where):
+        root = self.parent.parent
+        zone = root.ids.main.ids.main.ids.zone
+        zone.current = where
+        root.transition.direction = 'left'
+        root.current = 'main'
+
+class MainScreen(Screen):
+    pass
+
+class MainLayout(FloatLayout):
+    pass
 
 class SageZone(ScreenManager):
     def __init__(self, **kwargs):
@@ -56,10 +88,7 @@ class Navmenu(BoxLayout):
     def to_task(self):
         zone = self.parent.parent.ids.zone
         window = zone.current
-        if window == "Tasks":
-            print("Soy una tarea")
-            pass
-        else:
+        if not window == "Tasks":
             zone.transition.direction = "down"
             zone.current = "Tasks"
 
@@ -67,7 +96,6 @@ class Navmenu(BoxLayout):
         zone = self.parent.parent.ids.zone
         window = zone.current
         if window == "Calendar":
-            print("Soy un Calendario")
             pass
         elif window == "Tasks":
             zone.transition.direction = "up"
@@ -80,7 +108,6 @@ class Navmenu(BoxLayout):
         zone = self.parent.parent.ids.zone
         window = zone.current
         if window == "Notes":
-            print("Soy un Apunte")
             pass
         elif window == "Proyects":
             zone.transition.direction = "down"
@@ -92,10 +119,7 @@ class Navmenu(BoxLayout):
     def to_proyectos(self):
         zone = self.parent.parent.ids.zone
         window = zone.current
-        if window == "Proyects":
-            print("Soy un Proyecto")
-            pass
-        else:
+        if not window == "Proyects":
             zone.transition.direction = "up"
             zone.current = "Proyects"
 
