@@ -1,5 +1,72 @@
 <Proyect>:
 	name:"Proyects"
-	# Layout base para el componente
-	Label:
-		text: "Soy el panel Proyectos"
+	ProyViwes:
+
+
+
+<ProyScreen>:
+	name: 'proy'
+	BoxLayout:
+		orientation: 'vertical'
+		padding: '10dp'
+		spacing: '5dp'
+
+		Spinner:
+			# TODO add Options etc:
+			size_hint: .2,.1
+			text: 'Orden:'
+
+		ScrollView:
+			ProyectZone:
+				id: zone
+				size_hint: 1,None
+				height: self.minimum_height
+
+
+<EtapaScreen>:
+	name: 'etapa'
+	BoxLayout:
+		orientation: 'vertical'
+		padding: '10dp'
+		spacing: '5dp'
+
+		Spinner:
+			# TODO add Options etc:
+			size_hint: .2,.1
+			text: 'Orden:'
+
+		Button: 
+			text: 'texto'
+
+		ScrollView:
+			ProyectZone:
+				id: zone
+				size_hint: 1,None
+				height: self.minimum_height
+
+<EditScreen>:
+	name: 'edit'
+	BoxLayout:
+		orientation: 'vertical'
+		padding: '10dp'
+		spacing: '5dp'
+
+		Spinner:
+			# TODO add Options etc:
+			size_hint: .2,.1
+			text: 'Orden:'
+
+		ScrollView:
+			ProyectZone:
+				id: zone
+				size_hint: 1,None
+				height: self.minimum_height
+
+<proy_button>:
+	size_hint: 1, None
+	height: '100dp'
+	on_press: self.to_etap()
+
+<etap_button>:
+	size_hint: 1, None
+	height: '100dp'
