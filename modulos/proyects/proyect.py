@@ -83,17 +83,20 @@ class EtapaScreen(Screen):
         super().__init__(**kwargs)
         pass
 
-class EditScreen(Screen):
+class ProyEditScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         pass
 
 
-class Views(ScreenManager):
+class ProyViwes(ScreenManager):
 
     proy = ProyScreen()
     etap = EtapaScreen()
-    edit = EditScreen()
+    edit = ProyEditScreen()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.add_widget(self.proy)
+        self.add_widget(self.etap)
+        self.add_widget(self.edit)

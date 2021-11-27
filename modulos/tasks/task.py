@@ -160,7 +160,7 @@ class EditScreen(Screen):
     # cuando se seleccionan valores en los spinners
     def spinner_proy_clicked(self, name_proy):
         self.task.proy_id = self.proy.get_id_proy_from_str(
-            nom_proy
+            name_proy
         )  # se inicializa el valor del id_proy
         self.ids.cat.values = self.get_cat(self.task.proy_id)
 
@@ -168,7 +168,7 @@ class EditScreen(Screen):
         self.task.categoria_id = self.cat.get_id_cat_from_str(
             name_cat, self.task.proy_id
         )
-        self.ids.etapa.values = self.get_etapa(self.task.categoria_id)
+        self.ids.etapa.values = self.get_etapas(self.task.categoria_id)
 
     def spinner_etapa_clicked(self, name_etapa):
         self.task.etapa_id = self.etapa.get_id_etapa_from_str(
