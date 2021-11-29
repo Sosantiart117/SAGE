@@ -1,6 +1,6 @@
 # Sage
 from modulos.calendar.calendar_model import Calendar_modelo as calendar_modelo
-
+from modulos.tasks.task_model import Task_modelo as Task
 # kivy (basics)
 import kivy
 from kivy.lang import Builder
@@ -181,11 +181,15 @@ class Mes(BoxLayout):
             )
             days += 7
 
-
+#clase para guardar los valores de las tasks de un día especifico
 class day:
-    def __init__(self):
-        pass
+    pass
 
+class horas:
+    def __init__(self, ao, mes, dia, hora):
+        self.cal_mod= calendar_modelo()
+        self.r_minimo= self.cal_mod.set_fecha_min_día(ao,mes,dia,hora)
+        self.r_maximo= self.cal_mod.set_fecha_max_dia(ao, mes, dia, hora)
 
 class week(BoxLayout):
     def __init__(self, d_days, n_week, month, m_days, year, **kwargs):
@@ -211,22 +215,126 @@ class week(BoxLayout):
             elif days > m_days:
                 self.add_widget(Label(text=str(days - m_days)))
             else:
-                self.add_widget(day_button(text=str(days)))
+                self.add_widget(day_button(ao=year, mes= month, dia= days, text=str(days)))
             days += 1
 
 
 class DiaView(Screen):
-    # def __init__(self, **kwargs):
-    #     super().__init__(**kwargs)
-    pass
-
-
-class Dia(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.orientation = 'vertical'
+        self.dia = Dia()
+        self.ids.dia_box.add_widget(self.dia)
+        self.meses = []
+        for i in Calendar.months:
+            self.meses.append(i[0])
+        self.ids.sel_mon.values = self.meses
+        self.ids.sel_mon.text = Calendar.get_month(Calendar.selected_mon)[0]
+        yeas = []
+        for i in range(1990, 2030):
+            yeas.append(str(i))
+        self.ids.sel_yea.values = yeas
+        self.ids.sel_yea.text = str(Calendar.selected_yea)
+
+        dias = self.get_dias(Calendar.selected_yea, Calendar.selected_mon)
+        self.ids.sel_day.values = dias
+        self.ids.sel_day.text = str(Calendar.selected_day)
+
+
+    def to_mon(self, month):
+        if not Calendar.selected_mon == self.meses.index(month) + 1:
+            Calendar.selected_mon = self.meses.index(month) + 1
+            self.show_dia()
+
+    def to_yea(self, yea):
+        if not Calendar.selected_yea == int(yea):
+            Calendar.selected_yea = int(yea)
+            self.show_dia()
+
+    def to_day(self, dia):
+        if not Calendar.selected_day == int(dia):
+            Calendar.selected_day = int(dia)
+            self.show_dia()
+
+    def show_dia(self):
+        self.ids.dia_box.remove_widget(self.dia)
+        self.dia = Dia(
+            mes=Calendar.selected_mon,
+            year=Calendar.selected_yea,
+            day= Calendar.selected_day
+        )
+        self.ids.dia_box.add_widget(self.dia)
+
+    def get_dias(self, ao, mes):
+        lista = []
+        if (
+            (mes == 1)
+            or (mes == 3)
+            or (mes == 5)
+            or (mes == 7)
+            or (mes == 8)
+            or (mes == 10)
+            or (mes == 12)
+        ):
+            for dia in range(1, 32):
+                if dia < 10:
+                    lista.append("0" + str(dia))
+                else:
+                    lista.append(str(dia))
+            return lista
+        elif (mes == 4) or (mes == 6) or (mes == 9) or (mes == 11):
+            for dia in range(1, 31):
+                if dia < 10:
+                    lista.append("0" + str(dia))
+                else:
+                    lista.append(str(dia))
+            return lista
+        elif mes == 2:
+            for dia in range(1, 29):
+                if dia < 10:
+                    lista.append("0" + str(dia))
+                else:
+                    lista.append(str(dia))
+            if (ao % 4) == 0:
+                lista.append(str(29))
+            return lista
+
+class Dia(BoxLayout):
+    def __init__(
+        self,
+        mes=Calendar.selected_mon,
+        year=Calendar.selected_yea, 
+        day= Calendar.selected_day,
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+        # Agrega los labels superiores    
+        bx = BoxLayout(orientation="horizontal",size_hint=(1, 0.1))
+        bx.add_widget(Label(text="Hora", size_hint=(0.3, 0.2)))
+        bx.add_widget(Label(text="Tareas", size_hint=(.5, 0.2)))
+        self.add_widget(bx)
         for i in range(24):
-            self.add_widget(Button())
+            hbx = BoxLayout(orientation= "horizontal")
+            if i<10:
+                hbx.add_widget(Label(text="0"+str(i), size_hint=(0.1,.5)))
+            else:
+                hbx.add_widget(Label(text=str(i), size_hint=(0.1,.5)))
+            hbx.add_widget(Hora(year,mes,day,i))
+            self.add_widget(hbx)
+       
+            
+
+class Hora(StackLayout):
+    def __init__(self, ao, mes, dia, hora, **kwargs):
+        super().__init__(**kwargs)
+        self.horas = horas(ao,mes,dia,hora)
+        self.task= Task()
+        registros = self.task.get_task_between(self.horas.r_minimo, self.horas.r_maximo)
+        if  registros != None:
+            for t in registros:
+                self.add_widget(task_button(t))
+        else:
+            self.add_widget(Button(text="Sin tareas", size_hint=(0.9,0.4)))
+
 
 class Semana(Screen):
     def __init__(self, **kwargs):
@@ -277,4 +385,22 @@ class Ao(Screen):
         self.ids.ao_box.add_widget(self.yea)
 
 class day_button(Button):
-    pass
+    def __init__(self,ao, mes, dia, **kwargs):
+        super().__init__(**kwargs)
+        self.ao_dia = ao
+        self.mes_dia= mes
+        self.dia = dia
+        self.cal_mod = calendar_modelo()
+
+    def on_clicked(self):
+        Calendar.selected_day= self.dia
+        Calendar.selected_mon = self.mes_dia
+        Calendar.selected_yea = self.ao_dia
+
+
+class task_button(Button):
+    def __init__(self,tarea,**kwargs):
+        super().__init__(**kwargs) 
+        self.tarea= Task() 
+        self.tarea = tarea
+        self.text = self.tarea.titulo
