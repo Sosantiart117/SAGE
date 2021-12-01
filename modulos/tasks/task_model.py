@@ -135,7 +135,7 @@ class Task_modelo:
     def get_task_between(self, min, max):
         db = sqlite3.connect(Sage.get_db())
         cur = db.cursor()
-        query = f"""SELECT * FROM tasks WHERE Fecha_Final Between {min} and {max};"""
+        script = f"""SELECT * FROM tasks WHERE Fecha_Final Between {min} and {max};"""
         try:
             cur.executescript(script)
             return cur.fetchall()

@@ -7,14 +7,14 @@
 		orientation: 'vertical'
 		Spinner:
 			id: view_selector
-			size_hint: None,0.1
+			size_hint: None,0.07
 			width: "150dp"
 			pos_hint: {'right':1,'top':1}
 			text: "Mes"
 			values: ["Mes","Día","Semana","Año"]
 			on_text: pager.move_to(view_selector.text)
 		cal_zone:
-			size_hint: 1,0.9
+			size_hint: 1,1
 			pos_hint: {'x':0,'y':0}
 			id: pager
 
@@ -37,14 +37,25 @@
 
 <DiaView>:
 	name: "Dia"
-	Label:
-		text: "Soy un day"
-	Dia:
+	BoxLayout:
+		id: dia_box
+		orientation: 'vertical'
+		BoxLayout:
+			size_hint:1,.1
+			padding: "5dp"
+			spacing: "5dp"
+			Spinner:
+				id: sel_mon
+				on_text: root.to_mon(self.text)
+			Spinner:
+				id: sel_yea
+				on_text: root.to_yea(self.text)
+			Spinner: 
+				id: sel_day
+				on_text: root.to_day(self.text)
 
 <Semana>:
 	name: "Semana"
-	Label:
-		text: "Soy un sem"
 
 <Ao>:
 	name: "Ao"
@@ -61,10 +72,17 @@
 				id: sel_yea
 				on_text: root.to_yea(self.text)
 
-# Objetos para las vista
-
 <Mes>:
 	# cols: 8
 	orientation: 'vertical'
 	padding: "5dp"
 	spacing: "10dp"
+
+<Dia>:
+	orientation: 'vertical'
+	padding: "5dp"
+	spacing: "10dp"
+
+
+<day_button>:
+	on_press: root.on_clicked()
