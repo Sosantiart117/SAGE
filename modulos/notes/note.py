@@ -22,6 +22,11 @@ Builder.load_file("modulos/notes/note.kv")
 class Note(Screen):
     pass
 
+class NoteEdit(BoxLayout):
+    def save(self):
+        pass
 
-# class TaskZone(Layout):
-# pass
+    def quit(self):
+        pass
+
+

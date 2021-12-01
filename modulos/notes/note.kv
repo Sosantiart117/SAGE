@@ -1,5 +1,47 @@
 <Note>:
 	name:"Notes"
-	# Layout base para el componente
-	Label:
-		text: "Soy el panel notas"
+	NoteEdit:
+
+<NoteEdit>:
+	# Title
+	spacing: '10dp'
+	padding: '20dp'
+	orientation: 'vertical'
+	BoxLayout:
+		# Title
+		spacing: '10dp'
+		padding: '20dp'
+		size_hint: 1, .1
+		Label:
+			text: "Titulo"
+			size_hint: .1, 1
+		TextInput:
+			id: title
+			size_hint: 1, 1
+			height: self.minimum_height
+			multiline: False
+
+	BoxLayout:
+		# Big text description
+		orientation: 'vertical'
+		spacing: '10dp'
+		padding: '20dp'
+		Label:
+			text: "Drescripcion"
+			size_hint: None, .1
+		TextInput:
+			id: desc
+
+	AnchorLayout:
+		anchor_x: 'center'
+		anchor_y: 'top'
+		size_hint: 1,.1
+		BoxLayout:
+			size_hint: .3, .5
+			# Resto de los botones
+			Button:
+				text: "Cancelar"
+				on_press: root.quit()
+			Button:
+				text: "Guardar"
+				on_press: root.save()
