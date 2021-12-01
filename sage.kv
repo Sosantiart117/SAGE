@@ -12,6 +12,7 @@
 	Start:
 	MainScreen:
 		id: main
+	Profile:
 
 <MainScreen>:
 	name: "main"
@@ -56,6 +57,7 @@
 			size_hint: None ,1
 			width: '100dp'
 			text: "Perfil"
+			on_press: root.to_profile()
 
 <Navmenu>:
 	orientation: "vertical"
@@ -101,3 +103,19 @@
 		Button: 
 			text: 'Proyectos'
 			on_press: root.to_main('Proyects')
+
+<ProfileLayout>:
+	canvas.before:
+		Color:
+			rgba: .8,.8,.8,1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+	Button: 
+		size_hint: None,None
+		size: "50dp","50dp"
+		pos_hint: {'x':.05,'top':.95}
+		text: '<'
+		on_press: root.back()
+	

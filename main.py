@@ -13,6 +13,7 @@ from kivy.app import App
 
 # from kivy.metrics import dp
 from kivy.uix.button import Button
+from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, BooleanProperty
@@ -30,7 +31,7 @@ class Main(FloatLayout):
     pass
 
 class Bar(BoxLayout):
-    title = StringProperty("Tareas")
+    title = StringProperty("Sage")
 
     def set_title(self, title):
         self.title = title
@@ -40,6 +41,11 @@ class Bar(BoxLayout):
         root.transition.direction = 'right'
         root.current = "start"
 
+    def to_profile(self):
+        root = self.parent.ids.main_pager
+        root.transition.direction = 'left'
+        root.current = "profile"
+
 
 class MainPager(ScreenManager):
     pass
@@ -47,7 +53,30 @@ class MainPager(ScreenManager):
 class Profile(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.add_widget(ProfileLayout())
         self.name = 'profile'
+
+class ProfileLayout(FloatLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # Name:
+        n = Label(text=Sage.profile.get_name())
+        n.font_size = 50
+        n.size_hint = (None,None)
+        n.pos_hint = {'center_x':.5,'top':.80}
+        self.add_widget(n)
+        hDir = Label()
+        hDir.text="Directorio: "+Sage.profile.get_home_dir()
+        hDir.font_size = 50
+        hDir.size_hint = (None,None)
+        hDir.pos_hint = {'center_x':.5,'top':.50}
+        self.add_widget(hDir)
+
+
+    def back(self):
+        root = self.parent.parent
+        root.transition.direction = 'right'
+        root.current = 'start'
 
 class Start(Screen):
     def __init__(self, **kwargs):

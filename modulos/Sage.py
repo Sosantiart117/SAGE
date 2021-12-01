@@ -1,10 +1,21 @@
 import os
 import modulos.Build_DB as db
 
+class Profile():
+    def __init__(self):
+        self.home_dir = "./home"
+        self.name = "Usuario"
+
+    def get_name(self):
+        return self.name
+
+    def get_home_dir(self):
+        return self.home_dir
 
 class Sage:
 
     db_file = os.path.join(os.getcwd(), "App_Data.db")
+    profile = Profile()
 
     @classmethod
     def get_db(cls):
